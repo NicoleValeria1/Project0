@@ -20,9 +20,6 @@ data_type = {"int": "dt int",}
 
 identifier = {}
 
-
-
-
 file_name = input("Type the file's name: ")
 
 file = open(file_name)

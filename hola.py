@@ -27,9 +27,9 @@ if " " not in string:
 for token in line_tokens:
     for separator in separators:
         replacing = " " + separator + " "
-        token.replace(separator, replacing)
+        token=token.replace(separator, replacing)
         tokens = token.split(" ")
-print(tokens)
+
             
 
 

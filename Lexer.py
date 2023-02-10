@@ -80,4 +80,6 @@ for line in program:
                 
                 if agregar==True:
                     all_tokens.append(keywords[token])
+                elif agregar==False:
+                    print ("Error léxico")
                 

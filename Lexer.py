@@ -26,60 +26,58 @@ numbers = {"0": "nu 0", "1": "nu 1","2": "nu 2","3": "nu 3","4": "nu 4","5": "nu
 
 variables = {}
 
-file_name = input("Type the file's name: ")
+def lexer (file_name:str)->dict:
 
-file = open(file_name)
+    file = open(file_name)
+    file_r = file.read()
+    program = file_r.split('\n')
+    all_tokens = []
 
-file_r = file.read()
+    for line in program:
+        line = line.lower()
+        line_tokens = line.split(" ")
+        if " " not in line:
+            line_tokens = [line]
 
-program = file_r.split('\n')
+        for token in line_tokens:
+            for separator in separators:
+                replacing = " " + separator + " "
+                token=token.replace(separator, replacing)
+                tokens = token.split(" ")
 
-all_tokens = []
+            if tokens != " ":
+                if tokens in keywords:
+                    all_tokens.append(keywords[tokens])
 
-for line in program:
-    line = line.lower()
-    
-    line_tokens = line.split(" ")
+                elif tokens in separators:
+                    all_tokens.append(separators[tokens])
 
-    if " " not in line:
-        line_tokens = [line]
+                elif tokens in commands:
+                    all_tokens.append(commands[tokens])
 
-    for token in line_tokens:
-        for separator in separators:
-            replacing = " " + separator + " "
-            token=token.replace(separator, replacing)
-            tokens = token.split(" ")
-    
-    for token in line_tokens:
-        if token != " ":
-            if token in keywords:
-                all_tokens.append(keywords[token])
+                elif tokens in control:
+                    all_tokens.append(control[tokens])
 
-            elif token in separators:
-                all_tokens.append(separators[token])
+                elif tokens in conditions:
+                    all_tokens.append(conditions[tokens])
 
-            elif token in commands:
-                all_tokens.append(commands[token])
-
-            elif token in control:
-                all_tokens.append(control[token])
-
-            elif token in conditions:
-                all_tokens.append(conditions[token])
-
-            else:
-                if token[0] in alphabet:
-                    agregar=True
-                    for t in token:
-                        if t in alphabet or numbers:
-                            agregar=True
-                        else:
-                            agregar=False
                 else:
-                    agregar=False
+                    if tokens[0] in alphabet:
+                        agregar=True
+                        for t in tokens:
+                            if t in alphabet or numbers:
+                                agregar=True
+                            else:
+                                agregar=False
+                    else:
+                        agregar=False
                 
-                if agregar==True:
-                    all_tokens.append(keywords[token])
-                elif agregar==False:
-                    print ("Error léxico")
+                    if agregar==True:
+                        all_tokens.append(keywords[tokens])
+                    elif agregar==False:
+                        return "Lexical error"
+
+    return all_tokens
+
+print (lexer("test.txt"))
                 
